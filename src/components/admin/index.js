@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import Admin from './admin';
 import { AppContainer } from 'react-hot-loader';
 
 const render = Component => {
@@ -11,10 +11,10 @@ const render = Component => {
         , document.getElementById('app')
     )
 };
-render(App);
+render(Admin);
 
 if (module.hot) {
-    module.hot.accept('./components/App', () => {
-        render(App)
+    module.hot.accept('./admin', () => {
+        render(Admin)
     })
 }

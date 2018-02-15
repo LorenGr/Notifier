@@ -7,17 +7,31 @@ module.exports = {
         "app": [
             'babel-polyfill',
             'react-hot-loader/patch',
-            './src/index.js',
+        ],
+        "vendor": [
+            "react",
+            "react-dom"
+        ],
+        "index": [
+            './src/components/notifier/index.js',
+        ],
+        "admin": [
+            './src/components/admin/index.js',
         ]
     },
     output: {
         path: path.resolve(__dirname, './public'),
         publicPath: '/',
         filename: "[name].bundle.js",
+        chunkFilename: "[id].bundle.js",
     },
     devtool: "eval",
     module: {
         rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
