@@ -38,25 +38,17 @@ class App extends React.Component {
         this.ws.addEventListener('message', msg => {
             const incoming = JSON.parse(msg.data);
             if (incoming.messages != "") {
-                this.setState(
-                    {
-                        messages: incoming.messages,
-                    }
-                );
+                this.setState({messages: incoming.messages});
                 notification.open({
-                    message : "Updates",
-                    description : "You have a new message!"
+                    message: "Updates",
+                    description: "You have a new message!"
                 });
             }
             if (incoming.events != "") {
-                this.setState(
-                    {
-                        events: this.state.events.concat({label: incoming.events}),
-                    }
-                );
+                this.setState({events: this.state.events.concat({label: incoming.events})});
                 notification.open({
-                    message : "Updates",
-                    description : "You have new events!"
+                    message: "Updates",
+                    description: "You have new events!"
                 });
             }
         });
