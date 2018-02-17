@@ -3,6 +3,7 @@ import {
     Card,
     Form,
     Avatar,
+    notification,
     Icon,
     Input,
     Button
@@ -42,6 +43,10 @@ class App extends React.Component {
                         messages: incoming.messages,
                     }
                 );
+                notification.open({
+                    message : "Updates",
+                    description : "You have a new message!"
+                });
             }
             if (incoming.events != "") {
                 this.setState(
@@ -49,6 +54,10 @@ class App extends React.Component {
                         events: this.state.events.concat({label: incoming.events}),
                     }
                 );
+                notification.open({
+                    message : "Updates",
+                    description : "You have new events!"
+                });
             }
         });
 
