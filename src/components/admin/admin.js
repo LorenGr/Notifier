@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Button,
     Card,
+    Form,
     Input
 } from 'antd';
 import 'antd/dist/antd.css';
@@ -17,19 +18,17 @@ class Admin extends React.Component {
             messages: "",
             events: ""
         };
-        fetch('http://localhost:8080/open').then(data => console.log(data));
         this.broadcast = this.broadcast.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.onUnload = this.onUnload.bind(this);
+
+        this.ws = new WebSocket('ws:/localhost:8080');
+        this.ws.addEventListener('open', event => {
+            this.ws.send(JSON.stringify({id: 'admin'}));
+        });
     }
 
     componentDidMount() {
-        this.ws = new WebSocket('ws:/localhost:8080');
-        // Connection opened
-        this.ws.addEventListener('open', function (event) {
-            //ws.send('Hello Server!');
-        });
-
         window.addEventListener("beforeunload", this.onUnload);
     }
 
@@ -68,7 +67,7 @@ class Admin extends React.Component {
 
     render() {
         return (<Card bordered={false} title="Notifications Broadcaster">
-            <form onSubmit={this.broadcast}>
+            <Form onSubmit={this.broadcast}>
                 <Card bordered={false} title="Messages">
                 <TextArea
                     rows={4}
@@ -84,13 +83,11 @@ class Admin extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.events} type="text"/>
                 </Card>
-
                 <Button
                     htmlType="submit"
                     loading={this.state.loading}
                     type="primary"> Broadcast</Button>
-
-            </form>
+            </Form>
         </Card>);
     }
 };

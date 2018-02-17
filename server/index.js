@@ -3,12 +3,14 @@
 const session = require('express-session');
 const express = require('express');
 const http = require('http');
-const uuid = require('uuid');
 const path = require('path');
 const WebSocket = require('ws');
 const bodyParser = require('body-parser');
 
 const app = express();
+
+const lookup = [];
+
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -31,14 +33,18 @@ app.post('/broadcast', (req, res) => {
 });
 
 
-app.get('/open', (req, res) => {
-    wss.on('connection', function connection(ws) {
-        ws.on('open', function opening(message) {
-            res.send('Connection Open');
-        });
-        ws.on('message', function incoming(message) {
-            ws.send('received:' + message);
-        });
+wss.on('connection', function connection(ws) {
+    ws.on('message', function opening(message) {
+        const id = JSON.parse(message).id;
+        if (id) {
+            ws.id = id;
+            lookup.push({id: ws.id, socket: ws});
+        }
+    });
+    ws.on('close', function () {
+        ws.close();
+        const closingConnection = lookup.find(conn => conn.id === ws.id);
+        lookup.splice(lookup.indexOf(closingConnection), 1);
     });
 });
 
