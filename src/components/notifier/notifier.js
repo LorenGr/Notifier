@@ -9,7 +9,6 @@ import {connect} from 'react-redux';
 import Login from './login/';
 import NotifierHeader from './notifierHeader/';
 import NotifierMessages from './notifierMessages/';
-import NotifierEvents from './notifierEvents/';
 import NotifierGames from './notifierGames/';
 import {
     loginNotifier,
@@ -70,11 +69,14 @@ class Notifier extends React.Component {
 
     render() {
         return this.props.logged ? (
-            <Card extra={
-                <NotifierHeader onLogout={this.logout}/>
-            } bordered={false} title="Real-time Notifications">
+            <Card style={{
+                backgroundColor: '#005bde',
+                lineHeight: '37px'
+            }}
+                  extra={
+                      <NotifierHeader onLogout={this.logout}/>
+                  } bordered={false} title={'Welcome '+this.props.username+'! Check out our latest Games'}>
                 <NotifierMessages/>
-                <NotifierEvents/>
                 <NotifierGames/>
             </Card>
         ) : (
@@ -85,7 +87,8 @@ class Notifier extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        logged: state.logged
+        logged: state.logged,
+        username: state.username
     }
 }
 

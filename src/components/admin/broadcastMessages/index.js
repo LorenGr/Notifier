@@ -39,7 +39,6 @@ class BroadcastMessages extends React.Component {
                     <Button
                         style={{width:'100%',marginTop:'10px'}}
                         htmlType="submit"
-                        loading={this.state.loading}
                         type="primary"> Send message</Button>
                 </Card>
             </Broadcaster>

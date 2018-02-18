@@ -96,7 +96,6 @@ class BroadcastGames extends React.Component {
                     <Button
                         style={buttonStyle}
                         htmlType="submit"
-                        loading={this.state.loading}
                         type="primary"> Submit games
                     </Button>
                 </Card>

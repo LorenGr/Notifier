@@ -1,14 +1,27 @@
 import React from 'react';
 import {
-    Card
+    Modal
 } from 'antd';
 import {connect} from 'react-redux';
 
-const NotifierMessages = props => (
-    <Card type="inner" title="Messages">
-        <div style={{whiteSpace: 'pre-line'}}>{props.messages}</div>
-    </Card>
-);
+function showModal(content) {
+    Modal.info(
+        {
+            title: 'You have a new message!',
+            content,
+            style:{whiteSpace:'pre'}
+        }
+    );
+}
+
+class NotifierMessages extends React.Component {
+    render() {
+        return null;
+    }
+    componentDidUpdate() {
+        showModal(this.props.messages.content);
+    }
+}
 
 function mapStateToParams(state) {
     return {

@@ -1,18 +1,23 @@
 import React from 'react';
 import {
-    Card
+    List
 } from 'antd';
 import {connect} from 'react-redux';
 
-const NotifierGames = props => (
-    <Card type="inner" title="Games">
-        <ul>
-            {props.games.map((game, index) => {
-                return <li key={index}>{game.label}</li>
-            })}
-        </ul>
-    </Card>
-);
+const NotifierGames = props => {
+    return (
+        <List
+            dataSource={props.games}
+            renderItem={item => (
+                <List.Item style={{borderColor: 'rgb(37, 191, 255)'}}>
+                    <h2 style={{color: '#82b5ff'}}>
+                        {item.label}
+                    </h2>
+                </List.Item>
+            )}
+        />
+    );
+};
 
 function mapStateToParams(state) {
     return {
