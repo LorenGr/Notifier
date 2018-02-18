@@ -36,8 +36,8 @@ class BroadcastMessages extends React.Component {
                     name='messages'
                     onChange={this.handleChange}
                     value={this.state.messages} type="text"/>
-
                     <Button
+                        style={{width:'100%',marginTop:'10px'}}
                         htmlType="submit"
                         loading={this.state.loading}
                         type="primary"> Send message</Button>

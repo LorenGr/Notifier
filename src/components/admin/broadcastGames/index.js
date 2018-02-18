@@ -14,7 +14,13 @@ class BroadcastGames extends React.Component {
     constructor() {
         super();
         this.state = {
-            games: []
+            games: [
+                {label: 'Northern Sky'},
+                {label: 'The Falcon Huntress'},
+                {label: 'Lucky New Year'},
+                {label: 'Fruit Spin'},
+                {label: 'Temple Quest Spinfinity'}
+            ]
         };
         this.changeGame = this.changeGame.bind(this);
         this.addGame = this.addGame.bind(this);
