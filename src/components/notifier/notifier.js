@@ -22,55 +22,49 @@ function notify(message, description) {
     notification.open({message, description});
 }
 
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.substring(1);
+}
+
 class Notifier extends React.Component {
 
     constructor() {
         super();
-        this.onUnload = this.onUnload.bind(this);
+        this.openSocket = this.openSocket.bind(this);
+        this.closeSocket = this.closeSocket.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
-        this.initNotifier = this.initNotifier.bind(this);
     }
 
-    initNotifier() {
+    openSocket() {
         this.ws = new WebSocket('ws:/localhost:8080');
         this.ws.addEventListener('open', event => {
             this.ws.send(JSON.stringify({id: this.props.username}));
         });
         this.ws.addEventListener('message', msg => {
             const incoming = JSON.parse(msg.data);
-            if (incoming.messages && incoming.messages !== "") {
-                this.props.setNewMessages(incoming.messages);
-                notify("Updates", "You have a new message!");
-            }
-            if (incoming.events && incoming.events.length) {
-                this.props.setNewEvents(incoming.events);
-                notify("Updates", "You have new events!");
-            }
-            if (incoming.events && incoming.games.length) {
-                this.props.setNewGames(incoming.games);
-                notify("Updates", "You have new games!");
-            }
+            this.props['setNew' + capitalize(incoming.type)](incoming.data);
+            notify(incoming.notification);
         });
-        window.addEventListener("beforeunload", this.onUnload);
+        window.addEventListener("beforeunload", this.closeSocket);
     }
 
-    componentWillUnmount() {
-        window.removeEventListener("beforeunload", this.onUnload)
-    }
-
-    onUnload() {
+    closeSocket() {
         this.ws.close();
     }
 
-    logout() {
-        this.onUnload();
-        this.props.logoutNotifier();
+    componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.closeSocket)
     }
 
     login(username) {
         this.props.loginNotifier(username);
-        this.initNotifier();
+        this.openSocket();
+    }
+
+    logout() {
+        this.closeSocket();
+        this.props.logoutNotifier();
     }
 
     render() {

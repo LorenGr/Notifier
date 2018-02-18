@@ -41,24 +41,28 @@ class Admin extends React.Component {
     }
 
 
-    broadcast(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (this.state.loading) return false;
-        this.setState({loading: true});
-        fetch('http://localhost:8080/broadcast', {
-            method: 'post',
-            mode: 'cors',
-            body: JSON.stringify([
-                {
-                    messages: this.state.messages,
-                    events: this.state.events
-                }
-            ]),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        }).then(data => this.setState({loading: false}));
+    broadcast(type, notification) {
+        const self = this;
+        return function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (self.state.loading) return false;
+            self.setState({loading: true});
+            fetch('http://localhost:8080/broadcast', {
+                method: 'post',
+                mode: 'cors',
+                body: JSON.stringify([
+                    {
+                        type,
+                        data: self.state[type],
+                        notification
+                    }
+                ]),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(data => self.setState({loading: false}));
+        }
     }
 
     handleChange(event) {
@@ -67,7 +71,12 @@ class Admin extends React.Component {
 
     render() {
         return (<Card bordered={false} title="Notifications Broadcaster">
-            <Form onSubmit={this.broadcast}>
+            <Form onSubmit={
+                this.broadcast(
+                    'messages',
+                    'You have new messages!'
+                )
+            }>
                 <Card bordered={false} title="Messages">
                 <TextArea
                     rows={4}
@@ -75,7 +84,15 @@ class Admin extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.messages} type="text"/>
                 </Card>
-
+                <Button
+                    htmlType="submit"
+                    loading={this.state.loading}
+                    type="primary"> Send message</Button>
+            </Form>
+            <Form onSubmit={this.broadcast(
+                'events',
+                'You have new events!'
+            )}>
                 <Card bordered={false} title="Events">
                 <TextArea
                     rows={4}
@@ -86,7 +103,7 @@ class Admin extends React.Component {
                 <Button
                     htmlType="submit"
                     loading={this.state.loading}
-                    type="primary"> Broadcast</Button>
+                    type="primary"> Send Events</Button>
             </Form>
         </Card>);
     }
