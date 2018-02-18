@@ -1,143 +1,98 @@
 import React from 'react';
 import {
     Card,
-    Form,
-    Avatar,
-    notification,
-    Icon,
-    Input,
-    Button
+    message,
 } from 'antd';
 import 'antd/dist/antd.css';
+import {connect} from 'react-redux';
 
-const InputGroup = Input.Group;
-const FormItem = Form.Item;
+import Login from './login/';
+import NotifierHeader from './notifierHeader/';
+import NotifierMessages from './notifierMessages/';
+import NotifierEvents from './notifierEvents/';
+import NotifierGames from './notifierGames/';
+import {
+    loginNotifier,
+    logoutNotifier,
+    setNewMessages,
+    setNewEvents,
+    setNewGames
+} from './actions/';
 
-class App extends React.Component {
+function notify(msg) {
+    message.success(msg);
+}
+
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.substring(1);
+}
+
+class Notifier extends React.Component {
 
     constructor() {
         super();
-        this.state = {
-            username: '',
-            logged: false,
-            messages: "No new messages!",
-            events: [],
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.onUnload = this.onUnload.bind(this);
+        this.openSocket = this.openSocket.bind(this);
+        this.closeSocket = this.closeSocket.bind(this);
         this.login = this.login.bind(this);
-        this.initNotifier = this.initNotifier.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
-    initNotifier() {
+    openSocket() {
         this.ws = new WebSocket('ws:/localhost:8080');
         this.ws.addEventListener('open', event => {
-            this.ws.send(JSON.stringify({id: this.state.username}));
+            this.ws.send(JSON.stringify({id: this.props.username}));
         });
         this.ws.addEventListener('message', msg => {
             const incoming = JSON.parse(msg.data);
-            if (incoming.messages != "") {
-                this.setState({messages: incoming.messages});
-                notification.open({
-                    message: "Updates",
-                    description: "You have a new message!"
-                });
-            }
-            if (incoming.events != "") {
-                this.setState({events: this.state.events.concat({label: incoming.events})});
-                notification.open({
-                    message: "Updates",
-                    description: "You have new events!"
-                });
-            }
+            this.props['setNew' + capitalize(incoming.type)](incoming.data); //call action
+            notify(incoming.notification);
         });
+        window.addEventListener("beforeunload", this.closeSocket); //on browser close
+    }
 
-        window.addEventListener("beforeunload", this.onUnload);
+    closeSocket() {
+        this.ws.close();
     }
 
     componentWillUnmount() {
-        window.removeEventListener("beforeunload", this.onUnload)
+        window.removeEventListener("beforeunload", this.closeSocket)
     }
 
-    onUnload(event) {
-        if (this.state.username) this.ws.close();
+    login(username) {
+        this.props.loginNotifier(username);
+        this.openSocket();
     }
 
-    handleChange(event) {
-        this.setState({[event.target.name]: event.target.value});
-    }
-
-    login(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                this.setState({logged: true});
-                this.initNotifier();
-            }
-        });
+    logout() {
+        this.closeSocket();
+        this.props.logoutNotifier();
     }
 
     render() {
-        const {getFieldDecorator} = this.props.form;
-        return this.state.logged ? (
-            <div>
-                <Card extra={
-                    <Avatar style={{backgroundColor: 'orange', verticalAlign: 'middle'}} size="large">
-                        {this.state.username}
-                    </Avatar>
-                } bordered={false} title="Real-time Notifications">
-                    <Card type="inner" title="Messages">{this.state.messages}</Card>
-                    <Card type="inner" title="Events">
-                        <ul>
-                            {this.state.events.map((event, index) => {
-                                return <li key={index}>{event.label}</li>
-                            })}
-                        </ul>
-                    </Card>
-                </Card>
-            </div>
+        return this.props.logged ? (
+            <Card extra={
+                <NotifierHeader onLogout={this.logout}/>
+            } bordered={false} title="Real-time Notifications">
+                <NotifierMessages/>
+                <NotifierEvents/>
+                <NotifierGames/>
+            </Card>
         ) : (
-            <Form layout="horizontal" onSubmit={this.login}>
-                <Card bordered={false}
-                      style={
-                          {
-                              textAlign: 'center',
-                              height: '100%',
-                              width: '100%',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'center',
-                              position: 'fixed',
-                          }
-                      }>
-                    <FormItem>
-                        {getFieldDecorator('username', {
-                            rules: [{required: true, message: 'Please input your username!'}],
-                        })(
-                            <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                                   autoFocus
-                                   size="large"
-                                   name="username"
-                                   onChange={this.handleChange}
-                                   type="text"
-                                   style={{width: '50%'}}
-                                   placeholder="Please enter your name"
-                            />
-                        )}
-                    </FormItem>
-                    <Button
-                        icon="right"
-                        size="large"
-                        htmlType="submit"
-                        style={{width: '50%'}}
-                        type="primary"/>
-                </Card>
-            </Form>
+            <Login onLogin={this.login}/>
         );
     }
 };
 
-export default Form.create()(App);
+function mapStateToProps(state) {
+    return {
+        logged: state.logged
+    }
+}
+
+export default connect(mapStateToProps, {
+    loginNotifier,
+    logoutNotifier,
+    setNewMessages,
+    setNewEvents,
+    setNewGames
+})(Notifier);
