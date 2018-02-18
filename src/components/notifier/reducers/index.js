@@ -9,8 +9,8 @@ import {
 export default function reducer(state = {
     username: '',
     logged: false,
-    messages: "You have no new messages.",
-    events: [],
+    messages: null,
+    level: 1,
     games: []
 }, action) {
     switch (action.type) {
@@ -26,12 +26,19 @@ export default function reducer(state = {
             });
         case NOTIFIER_NEW_MESSAGES :
             return Object.assign({}, state, {
-                messages: action.messages
+                messages: {
+                    date: new Date(),
+                    content: action.messages
+                }
             });
         case NOTIFIER_NEW_EVENTS :
-            return Object.assign({}, state, {
-                events: state.events.concat({label: action.events})
-            });
+            if (action.events.event === "LEVEL_INCREASE") {
+                return Object.assign({}, state, {
+                    level: state.level + 1
+                });
+            } else {
+                return state;
+            }
         case NOTIFIER_NEW_GAMES :
             return Object.assign({}, state, {
                 games: action.games

@@ -1,16 +1,20 @@
 import React from 'react';
 import {
     Avatar,
-    Button
+    Button,
+    Badge
 } from 'antd';
 import {connect} from 'react-redux';
 
 const NotifierHeader = props => (
     <div>
-        <Avatar style={{backgroundColor: 'orange', verticalAlign: 'middle'}}
-                size="large">
-            {props.username}
-        </Avatar>
+        <Badge count={props.level}
+               style={{backgroundColor: '#52c41a'}}>
+            <Avatar style={{backgroundColor: 'orange', verticalAlign: 'middle'}}
+                    size="large">
+                {props.username[0].toUpperCase()}
+            </Avatar>
+        </Badge>
         <Button onClick={props.onLogout}
                 style={{verticalAlign: 'middle', marginLeft: '10px'}}
                 shape="circle"
@@ -20,7 +24,8 @@ const NotifierHeader = props => (
 
 function mapStateToParams(state) {
     return {
-        username: state.username
+        username: state.username,
+        level: state.level
     }
 }
 
