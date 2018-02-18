@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     Card,
-    notification,
+    message,
 } from 'antd';
 import 'antd/dist/antd.css';
 import {connect} from 'react-redux';
@@ -10,6 +10,7 @@ import Login from './login/';
 import NotifierHeader from './notifierHeader/';
 import NotifierMessages from './notifierMessages/';
 import NotifierEvents from './notifierEvents/';
+import NotifierGames from './notifierGames/';
 import {
     loginNotifier,
     logoutNotifier,
@@ -18,8 +19,8 @@ import {
     setNewGames
 } from './actions/';
 
-function notify(message, description) {
-    notification.open({message, description});
+function notify(msg) {
+    message.success(msg);
 }
 
 function capitalize(string) {
@@ -43,10 +44,10 @@ class Notifier extends React.Component {
         });
         this.ws.addEventListener('message', msg => {
             const incoming = JSON.parse(msg.data);
-            this.props['setNew' + capitalize(incoming.type)](incoming.data);
+            this.props['setNew' + capitalize(incoming.type)](incoming.data); //call action
             notify(incoming.notification);
         });
-        window.addEventListener("beforeunload", this.closeSocket);
+        window.addEventListener("beforeunload", this.closeSocket); //on browser close
     }
 
     closeSocket() {
@@ -74,6 +75,7 @@ class Notifier extends React.Component {
             } bordered={false} title="Real-time Notifications">
                 <NotifierMessages/>
                 <NotifierEvents/>
+                <NotifierGames/>
             </Card>
         ) : (
             <Login onLogin={this.login}/>

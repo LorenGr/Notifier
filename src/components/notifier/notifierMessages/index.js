@@ -5,7 +5,9 @@ import {
 import {connect} from 'react-redux';
 
 const NotifierMessages = props => (
-    <Card type="inner" title="Messages">{props.messages}</Card>
+    <Card type="inner" title="Messages">
+        <div style={{whiteSpace: 'pre-line'}}>{props.messages}</div>
+    </Card>
 );
 
 function mapStateToParams(state) {
