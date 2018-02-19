@@ -4,38 +4,44 @@
   "description": "A Notifier Application.",
   "main": "webpack.config.js",
   "scripts": {
+    "test": "mocha  --compilers js:babel-register --recursive --require babel-polyfill",
     "start": "npm run webpack && node server/index.js",
     "start-dev": "node server",
+    "heroku-prebuild": "npm install --only=dev",
     "webpack-server": "webpack-dev-server --historyApiFallback --inline",
     "webpack": "webpack --colors --progress --config ./webpack.config"
   },
   "author": "Loren Grixti",
   "license": "ISC",
-
   "dependencies": {
     "antd": "^3.2.1",
-    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
-    "ws": "^4.0.0",
-
+    "ws": "^4.0.0"
+  },
+  "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-import": "^1.6.5",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
     "clean-webpack-plugin": "^0.1.18",
     "css-loader": "^0.28.9",
+    "mocha": "^5.0.1",
     "react-hot-loader": "^3.1.3",
     "style-loader": "^0.20.1",
     "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.10.0",
     "webpack-dev-server": "^2.9.7"
   }
 }
