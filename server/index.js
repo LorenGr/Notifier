@@ -6,7 +6,7 @@ const http = require('http');
 const path = require('path');
 const WebSocket = require('ws');
 const bodyParser = require('body-parser');
-
+const port = process.env.PORT || 3001;
 const app = express();
 
 const lookup = [];
@@ -56,6 +56,9 @@ wss.on('connection', function connection(ws) {
 });
 
 
-server.listen(8080, function listening() {
-    console.log('Listening on %d', server.address().port);
+server.listen(port, (err) => {
+    if (err) {
+        return console.log('something bad happened', err)
+    }
+    console.log(`server is listening on ${port}`)
 });
