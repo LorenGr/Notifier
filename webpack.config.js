@@ -77,7 +77,6 @@ module.exports = {
             verbose: true,
             dry: false
         }),
-        new BundleAnalyzerPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
         }),
