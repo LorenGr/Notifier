@@ -3,6 +3,8 @@ var webpack = require("webpack"),
     CleanWebpackPlugin = require('clean-webpack-plugin'),
     env = process.env.NODE_ENV,
 
+    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
+
     prodBase = "https://notifierapp.herokuapp.com",
     devBase = "http://localhost:3001",
 
@@ -17,7 +19,10 @@ module.exports = {
         ],
         "vendor": [
             "react",
-            "react-dom"
+            "react-dom",
+            "react-redux",
+            "redux",
+            "antd"
         ],
         "index": [
             './src/components/notifier/index.js',
@@ -71,6 +76,10 @@ module.exports = {
             root: __dirname + '/public',
             verbose: true,
             dry: false
+        }),
+        new BundleAnalyzerPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
