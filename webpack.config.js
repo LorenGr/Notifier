@@ -21,6 +21,7 @@ module.exports = {
             "react",
             "react-dom",
             "react-redux",
+            "react-hot-loader",
             "redux",
             "antd"
         ],
