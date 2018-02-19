@@ -28,7 +28,6 @@ module.exports = {
         filename: "[name].bundle.js",
         chunkFilename: "[id].bundle.js",
     },
-    devtool: "eval",
     module: {
         rules: [
             {
@@ -64,6 +63,11 @@ module.exports = {
         port: 3000
     },
     plugins: [
+        new CleanWebpackPlugin(['*.bundle.js'], {
+            root: __dirname + '/public',
+            verbose: true,
+            dry: false
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             "API_URL": JSON.stringify(env === 'production' ? prodBase : devBase)
