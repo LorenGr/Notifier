@@ -2,8 +2,8 @@ var webpack = require("webpack"),
     path = require('path'),
     CleanWebpackPlugin = require('clean-webpack-plugin'),
     env = process.env.NODE_ENV,
-    prodBase = "ws://notifierapp.herokuapp.com",
-    devBase = "ws://localhost:3001";
+    prodBase = "notifierapp.herokuapp.com",
+    devBase = "localhost:3001";
 
 module.exports = {
     entry: {

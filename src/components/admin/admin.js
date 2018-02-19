@@ -13,7 +13,7 @@ class Admin extends React.Component {
     constructor() {
         super();
         this.onUnload = this.onUnload.bind(this);
-        this.ws = new WebSocket(base);
+        this.ws = new WebSocket('ws://' + base);
         this.ws.addEventListener('open', event => {
             this.ws.send(JSON.stringify({id: 'admin'}));
         });

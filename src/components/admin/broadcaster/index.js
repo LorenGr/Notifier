@@ -3,6 +3,8 @@ import {
     Form
 } from 'antd';
 
+const base = String(API_URL);
+
 class Broadcaster extends React.Component {
 
     constructor() {
@@ -18,7 +20,7 @@ class Broadcaster extends React.Component {
         e.stopPropagation();
         if (this.state.loading) return false;
         this.setState({loading: true});
-        fetch('http://localhost:8080/broadcast', {
+        fetch('http://' + base + '/broadcast', {
             method: 'post',
             mode: 'cors',
             body: JSON.stringify([

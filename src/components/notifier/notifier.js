@@ -39,7 +39,7 @@ class Notifier extends React.Component {
     }
 
     openSocket() {
-        this.ws = new WebSocket(base);
+        this.ws = new WebSocket('ws://' + base);
         this.ws.addEventListener('open', event => {
             this.ws.send(JSON.stringify({id: this.props.username}));
         });
