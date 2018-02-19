@@ -7,6 +7,7 @@
     "test": "mocha  --compilers js:babel-register --recursive --require babel-polyfill",
     "start": "npm run webpack && node server/index.js",
     "start-dev": "node server",
+    "heroku-prebuild": "npm install --only=dev",
     "webpack-server": "webpack-dev-server --historyApiFallback --inline",
     "webpack": "webpack --colors --progress --config ./webpack.config"
   },
