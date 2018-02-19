@@ -19,7 +19,6 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-
 const server = http.createServer(app);
 const wss = new WebSocket.Server({server});
 
@@ -32,6 +31,14 @@ app.post('/broadcast', (req, res) => {
     res.send("Broadcasted");
 });
 
+app.use(express.static(path.resolve(__dirname, '../public')));
+
+app.get('/', (req, res) => {
+    res.render('../public/index.html');
+});
+app.get('/admin', (req, res) => {
+    res.render('../public/admin');
+});
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function opening(message) {
