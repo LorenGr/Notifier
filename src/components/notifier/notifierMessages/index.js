@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    Modal
-} from 'antd';
+import Modal from 'antd/lib/modal';
 import {connect} from 'react-redux';
 
 function showModal(content) {

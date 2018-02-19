@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-    Avatar,
-    Button,
-    Badge
-} from 'antd';
+import Avatar from 'antd/lib/avatar';
+import Button from 'antd/lib/button';
+import Badge from 'antd/lib/badge';
 import {connect} from 'react-redux';
 
 const NotifierHeader = props => (

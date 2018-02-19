@@ -1,5 +1,6 @@
 import React from 'react';
-import {Card,Tabs} from 'antd';
+import Card from 'antd/lib/card';
+import Tabs from 'antd/lib/tabs';
 import 'antd/dist/antd.css';
 import {Button} from "antd/lib/index";
 import BroadcastEvents from "./broadcastEvents/";

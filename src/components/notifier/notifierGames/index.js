@@ -1,9 +1,9 @@
 import React from 'react';
-import {
-    List,
-    Icon,
-    Button
-} from 'antd';
+
+import List from 'antd/lib/list';
+import Icon from 'antd/lib/icon';
+import Button from 'antd/lib/button';
+
 import {connect} from 'react-redux';
 
 const NotifierGames = props => {

@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    Form
-} from 'antd';
+import Form from 'antd/lib/form';
 
 const base = String(API_URL);
 

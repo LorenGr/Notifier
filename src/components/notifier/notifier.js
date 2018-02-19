@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-    Card,
-    message,
-} from 'antd';
+import Card from 'antd/lib/card';
+import message from 'antd/lib/message';
 import 'antd/dist/antd.css';
 import {connect} from 'react-redux';
 

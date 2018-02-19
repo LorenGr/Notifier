@@ -1,10 +1,9 @@
 import React from 'react';
 import Broadcaster from '../broadcaster/';
-import {
-    Button,
-    Card,
-    Input
-} from 'antd';
+
+import Card from 'antd/lib/card';
+import Input from 'antd/lib/input';
+import Button from 'antd/lib/button';
 
 const {TextArea} = Input;
 
