@@ -26,6 +26,8 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.substring(1);
 }
 
+const base = String(API_URL);
+
 class Notifier extends React.Component {
 
     constructor() {
@@ -37,7 +39,7 @@ class Notifier extends React.Component {
     }
 
     openSocket() {
-        this.ws = new WebSocket('ws:/localhost:8080');
+        this.ws = new WebSocket(base);
         this.ws.addEventListener('open', event => {
             this.ws.send(JSON.stringify({id: this.props.username}));
         });
@@ -75,7 +77,7 @@ class Notifier extends React.Component {
             }}
                   extra={
                       <NotifierHeader onLogout={this.logout}/>
-                  } bordered={false} title={'Welcome '+this.props.username+'! Check out our latest Games'}>
+                  } bordered={false} title={'Welcome ' + this.props.username + '! Check out our latest Games'}>
                 <NotifierMessages/>
                 <NotifierGames/>
             </Card>

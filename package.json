@@ -4,7 +4,8 @@
   "description": "A Notifier Application.",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "node server",
+    "start": "NODE_ENV=production npm run webpack && node server",
+    "start-dev": "node server",
     "webpack-server": "webpack-dev-server --historyApiFallback --inline",
     "webpack": "webpack --colors --progress --config ./webpack.config"
   },
