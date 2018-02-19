@@ -2,8 +2,12 @@ var webpack = require("webpack"),
     path = require('path'),
     CleanWebpackPlugin = require('clean-webpack-plugin'),
     env = process.env.NODE_ENV,
-    prodBase = "notifierapp.herokuapp.com",
-    devBase = "localhost:3001";
+
+    prodBase = "https://notifierapp.herokuapp.com",
+    devBase = "http://localhost:3001",
+
+    prodWSBase = "wss://notifierapp.herokuapp.com",
+    devWSBase = "ws://localhost:3001";
 
 module.exports = {
     entry: {
@@ -70,7 +74,8 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
-            "API_URL": JSON.stringify(env === 'production' ? prodBase : devBase)
+            "API_URL": JSON.stringify(env === 'production' ? prodBase : devBase),
+            "API_WS": JSON.stringify(env === 'production' ? prodWSBase : devWSBase)
         })
     ]
 };

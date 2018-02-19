@@ -7,13 +7,13 @@ import BroadcastMessages from "./broadcastMessages/";
 import BroadcastGames from "./broadcastGames/";
 
 const { TabPane } = Tabs;
-const base = String(API_URL);
+const base = String(API_WS);
 class Admin extends React.Component {
 
     constructor() {
         super();
         this.onUnload = this.onUnload.bind(this);
-        this.ws = new WebSocket('ws://' + base);
+        this.ws = new WebSocket(base);
         this.ws.addEventListener('open', event => {
             this.ws.send(JSON.stringify({id: 'admin'}));
         });

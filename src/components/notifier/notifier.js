@@ -26,7 +26,7 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.substring(1);
 }
 
-const base = String(API_URL);
+const base = String(API_WS);
 
 class Notifier extends React.Component {
 
@@ -39,7 +39,7 @@ class Notifier extends React.Component {
     }
 
     openSocket() {
-        this.ws = new WebSocket('ws://' + base);
+        this.ws = new WebSocket(base);
         this.ws.addEventListener('open', event => {
             this.ws.send(JSON.stringify({id: this.props.username}));
         });

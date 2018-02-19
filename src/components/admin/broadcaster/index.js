@@ -20,7 +20,7 @@ class Broadcaster extends React.Component {
         e.stopPropagation();
         if (this.state.loading) return false;
         this.setState({loading: true});
-        fetch('http://' + base + '/broadcast', {
+        fetch(base + '/broadcast', {
             method: 'post',
             mode: 'cors',
             body: JSON.stringify([
