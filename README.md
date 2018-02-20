@@ -16,3 +16,10 @@ The administration application can broadcast to all those who are using the Noti
 ## Server API
 This is responsible for creating webSocket connections and keeping track of all active users at a given time.
 
+## Running locally
+
+### npm start-dev
+This will run an Express server and serve the Notifier and Admin apps.
+
+### npm test
+This will execute the test suites with jets.
