@@ -22,7 +22,7 @@ export default function reducer(state = {
         case NOTIFIER_LOGOUT :
             return Object.assign({}, state, {
                 logged: false,
-                username: ''
+                username: '',
             });
         case NOTIFIER_NEW_MESSAGES :
             return Object.assign({}, state, {

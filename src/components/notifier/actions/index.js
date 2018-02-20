@@ -1,6 +1,6 @@
 export const NOTIFIER_LOGIN = "LOGIN";
-export const NOTIFIER_LOGOUT = "LOGOUT ";
-export const NOTIFIER_NEW_MESSAGES = "MESSAGES ";
+export const NOTIFIER_LOGOUT = "LOGOUT";
+export const NOTIFIER_NEW_MESSAGES = "MESSAGES";
 export const NOTIFIER_NEW_EVENTS = "EVENTS";
 export const NOTIFIER_NEW_GAMES = "GAMES";
 
