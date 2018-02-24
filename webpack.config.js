@@ -2,14 +2,8 @@ var webpack = require("webpack"),
     path = require('path'),
     CleanWebpackPlugin = require('clean-webpack-plugin'),
     env = process.env.NODE_ENV,
-
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
-
-    prodBase = "https://notifierapp.herokuapp.com",
-    devBase = "http://localhost:3001",
-
-    prodWSBase = "wss://notifierapp.herokuapp.com",
-    devWSBase = "ws://localhost:3001";
+    PKG = require('./package.json');
 
 module.exports = {
     entry: {
@@ -57,11 +51,6 @@ module.exports = {
                             'plugins': [
                                 "react-hot-loader/babel",
                                 "transform-object-rest-spread"
-                            ],
-                            'presets': [
-                                "react",
-                                ["es2015", {"modules": false}],
-                                "latest"
                             ]
                         }
                     }]
@@ -83,8 +72,8 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
-            "API_URL": JSON.stringify(env === 'production' ? prodBase : devBase),
-            "API_WS": JSON.stringify(env === 'production' ? prodWSBase : devWSBase)
+            "API_URL": JSON.stringify(env === 'production' ? PKG.api.prodBase : PKG.api.devBase),
+            "API_WS": JSON.stringify(env === 'production' ? PKG.api.prodWSBase : PKG.api.devWSBase)
         })
     ]
 };

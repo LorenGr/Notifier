@@ -466,7 +466,7 @@ var _redux = __webpack_require__(266);
 
 var _reactRedux = __webpack_require__(125);
 
-var _reducers = __webpack_require__(1506);
+var _reducers = __webpack_require__(1507);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -511,6 +511,170 @@ var _temp = function () {
 /***/ }),
 
 /***/ 1502:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _card = __webpack_require__(89);
+
+var _card2 = _interopRequireDefault(_card);
+
+var _message = __webpack_require__(337);
+
+var _message2 = _interopRequireDefault(_message);
+
+__webpack_require__(338);
+
+var _login = __webpack_require__(1503);
+
+var _login2 = _interopRequireDefault(_login);
+
+var _notifierHeader = __webpack_require__(1504);
+
+var _notifierHeader2 = _interopRequireDefault(_notifierHeader);
+
+var _notifierMessages = __webpack_require__(1505);
+
+var _notifierMessages2 = _interopRequireDefault(_notifierMessages);
+
+var _notifierGames = __webpack_require__(1506);
+
+var _notifierGames2 = _interopRequireDefault(_notifierGames);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function notify(msg) {
+    _message2.default.success(msg);
+}
+
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.substring(1);
+}
+
+var base = String("ws://localhost:3001");
+
+var Notifier = function (_React$Component) {
+    _inherits(Notifier, _React$Component);
+
+    function Notifier() {
+        _classCallCheck(this, Notifier);
+
+        var _this = _possibleConstructorReturn(this, (Notifier.__proto__ || Object.getPrototypeOf(Notifier)).call(this));
+
+        _this.openSocket = _this.openSocket.bind(_this);
+        _this.closeSocket = _this.closeSocket.bind(_this);
+        _this.login = _this.login.bind(_this);
+        _this.logout = _this.logout.bind(_this);
+        return _this;
+    }
+
+    _createClass(Notifier, [{
+        key: 'openSocket',
+        value: function openSocket() {
+            var _this2 = this;
+
+            this.ws = new WebSocket(base);
+            this.ws.addEventListener('open', function (event) {
+                _this2.ws.send(JSON.stringify({ id: _this2.props.username }));
+            });
+            this.ws.addEventListener('message', function (msg) {
+                var incoming = JSON.parse(msg.data);
+                _this2.props['setNew' + capitalize(incoming.type)](incoming.data); //call action
+                notify(incoming.notification);
+            });
+            window.addEventListener("beforeunload", this.closeSocket); //on browser close
+        }
+    }, {
+        key: 'closeSocket',
+        value: function closeSocket() {
+            this.ws.close();
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            window.removeEventListener("beforeunload", this.closeSocket);
+        }
+    }, {
+        key: 'login',
+        value: function login(username) {
+            this.props.loginNotifier(username);
+            this.openSocket();
+        }
+    }, {
+        key: 'logout',
+        value: function logout() {
+            this.closeSocket();
+            this.props.logoutNotifier();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var notifierBody = _react2.default.createElement(
+                _card2.default,
+                { style: {
+                        backgroundColor: '#005bde',
+                        lineHeight: '37px'
+                    },
+                    extra: _react2.default.createElement(_notifierHeader2.default, { onLogout: this.logout }), bordered: false,
+                    title: 'Welcome ' + this.props.username + '! Check out our latest Games' },
+                _react2.default.createElement(_notifierMessages2.default, null),
+                _react2.default.createElement(_notifierGames2.default, null)
+            );
+
+            return this.props.logged ? notifierBody : _react2.default.createElement(_login2.default, { id: 'loginForm', onLogin: this.login });
+        }
+    }]);
+
+    return Notifier;
+}(_react2.default.Component);
+
+;
+
+var _default = Notifier;
+exports.default = _default;
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(notify, 'notify', 'C:/projects/Notifier/src/components/notifier/notifier/notifier.js');
+
+    __REACT_HOT_LOADER__.register(capitalize, 'capitalize', 'C:/projects/Notifier/src/components/notifier/notifier/notifier.js');
+
+    __REACT_HOT_LOADER__.register(base, 'base', 'C:/projects/Notifier/src/components/notifier/notifier/notifier.js');
+
+    __REACT_HOT_LOADER__.register(Notifier, 'Notifier', 'C:/projects/Notifier/src/components/notifier/notifier/notifier.js');
+
+    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/projects/Notifier/src/components/notifier/notifier/notifier.js');
+}();
+
+;
+
+ ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : module.exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { __REACT_HOT_LOADER__.register(webpackExports, 'module.exports', "C:\\projects\\Notifier\\src\\components\\notifier\\notifier\\notifier.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "C:\\projects\\Notifier\\src\\components\\notifier\\notifier\\notifier.js"); } } })();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+
+/***/ }),
+
+/***/ 1503:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -666,7 +830,7 @@ var _temp = function () {
 
 /***/ }),
 
-/***/ 1503:
+/***/ 1504:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -749,7 +913,7 @@ var _temp = function () {
 
 /***/ }),
 
-/***/ 1504:
+/***/ 1505:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -843,7 +1007,7 @@ var _temp = function () {
 
 /***/ }),
 
-/***/ 1505:
+/***/ 1506:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -931,7 +1095,7 @@ var _temp = function () {
 
 /***/ }),
 
-/***/ 1506:
+/***/ 1507:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -968,7 +1132,6 @@ function reducer() {
         case _actions.NOTIFIER_NEW_MESSAGES:
             return Object.assign({}, state, {
                 messages: {
-                    date: new Date(),
                     content: action.messages
                 }
             });
@@ -4774,7 +4937,7 @@ module.exports = function (css) {
 			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
 
 		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
 		  return fullMatch;
 		}
 
@@ -8494,133 +8657,19 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _card = __webpack_require__(89);
-
-var _card2 = _interopRequireDefault(_card);
-
-var _message = __webpack_require__(337);
-
-var _message2 = _interopRequireDefault(_message);
-
-__webpack_require__(338);
-
 var _reactRedux = __webpack_require__(125);
 
-var _login = __webpack_require__(1502);
+var _notifier = __webpack_require__(1502);
 
-var _login2 = _interopRequireDefault(_login);
-
-var _notifierHeader = __webpack_require__(1503);
-
-var _notifierHeader2 = _interopRequireDefault(_notifierHeader);
-
-var _notifierMessages = __webpack_require__(1504);
-
-var _notifierMessages2 = _interopRequireDefault(_notifierMessages);
-
-var _notifierGames = __webpack_require__(1505);
-
-var _notifierGames2 = _interopRequireDefault(_notifierGames);
+var _notifier2 = _interopRequireDefault(_notifier);
 
 var _actions = __webpack_require__(692);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function notify(msg) {
-    _message2.default.success(msg);
-}
-
-function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.substring(1);
-}
-
-var base = String("ws://localhost:3001");
-
-var Notifier = function (_React$Component) {
-    _inherits(Notifier, _React$Component);
-
-    function Notifier() {
-        _classCallCheck(this, Notifier);
-
-        var _this = _possibleConstructorReturn(this, (Notifier.__proto__ || Object.getPrototypeOf(Notifier)).call(this));
-
-        _this.openSocket = _this.openSocket.bind(_this);
-        _this.closeSocket = _this.closeSocket.bind(_this);
-        _this.login = _this.login.bind(_this);
-        _this.logout = _this.logout.bind(_this);
-        return _this;
-    }
-
-    _createClass(Notifier, [{
-        key: 'openSocket',
-        value: function openSocket() {
-            var _this2 = this;
-
-            this.ws = new WebSocket(base);
-            this.ws.addEventListener('open', function (event) {
-                _this2.ws.send(JSON.stringify({ id: _this2.props.username }));
-            });
-            this.ws.addEventListener('message', function (msg) {
-                var incoming = JSON.parse(msg.data);
-                _this2.props['setNew' + capitalize(incoming.type)](incoming.data); //call action
-                notify(incoming.notification);
-            });
-            window.addEventListener("beforeunload", this.closeSocket); //on browser close
-        }
-    }, {
-        key: 'closeSocket',
-        value: function closeSocket() {
-            this.ws.close();
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            window.removeEventListener("beforeunload", this.closeSocket);
-        }
-    }, {
-        key: 'login',
-        value: function login(username) {
-            this.props.loginNotifier(username);
-            this.openSocket();
-        }
-    }, {
-        key: 'logout',
-        value: function logout() {
-            this.closeSocket();
-            this.props.logoutNotifier();
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return this.props.logged ? _react2.default.createElement(
-                _card2.default,
-                { style: {
-                        backgroundColor: '#005bde',
-                        lineHeight: '37px'
-                    },
-                    extra: _react2.default.createElement(_notifierHeader2.default, { onLogout: this.logout }), bordered: false, title: 'Welcome ' + this.props.username + '! Check out our latest Games' },
-                _react2.default.createElement(_notifierMessages2.default, null),
-                _react2.default.createElement(_notifierGames2.default, null)
-            ) : _react2.default.createElement(_login2.default, { onLogin: this.login });
-        }
-    }]);
-
-    return Notifier;
-}(_react2.default.Component);
-
-;
 
 function mapStateToProps(state) {
     return {
@@ -8635,7 +8684,7 @@ var _default = (0, _reactRedux.connect)(mapStateToProps, {
     setNewMessages: _actions.setNewMessages,
     setNewEvents: _actions.setNewEvents,
     setNewGames: _actions.setNewGames
-})(Notifier);
+})(_notifier2.default);
 
 exports.default = _default;
 ;
@@ -8645,22 +8694,14 @@ var _temp = function () {
         return;
     }
 
-    __REACT_HOT_LOADER__.register(notify, 'notify', 'C:/projects/Notifier/src/components/notifier/notifier.js');
+    __REACT_HOT_LOADER__.register(mapStateToProps, 'mapStateToProps', 'C:/projects/Notifier/src/components/notifier/notifier/index.js');
 
-    __REACT_HOT_LOADER__.register(capitalize, 'capitalize', 'C:/projects/Notifier/src/components/notifier/notifier.js');
-
-    __REACT_HOT_LOADER__.register(base, 'base', 'C:/projects/Notifier/src/components/notifier/notifier.js');
-
-    __REACT_HOT_LOADER__.register(Notifier, 'Notifier', 'C:/projects/Notifier/src/components/notifier/notifier.js');
-
-    __REACT_HOT_LOADER__.register(mapStateToProps, 'mapStateToProps', 'C:/projects/Notifier/src/components/notifier/notifier.js');
-
-    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/projects/Notifier/src/components/notifier/notifier.js');
+    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/projects/Notifier/src/components/notifier/notifier/index.js');
 }();
 
 ;
 
- ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : module.exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { __REACT_HOT_LOADER__.register(webpackExports, 'module.exports', "C:\\projects\\Notifier\\src\\components\\notifier\\notifier.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "C:\\projects\\Notifier\\src\\components\\notifier\\notifier.js"); } } })();
+ ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : module.exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { __REACT_HOT_LOADER__.register(webpackExports, 'module.exports', "C:\\projects\\Notifier\\src\\components\\notifier\\notifier\\index.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "C:\\projects\\Notifier\\src\\components\\notifier\\notifier\\index.js"); } } })();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
@@ -8680,8 +8721,8 @@ exports.setNewMessages = setNewMessages;
 exports.setNewEvents = setNewEvents;
 exports.setNewGames = setNewGames;
 var NOTIFIER_LOGIN = exports.NOTIFIER_LOGIN = "LOGIN";
-var NOTIFIER_LOGOUT = exports.NOTIFIER_LOGOUT = "LOGOUT ";
-var NOTIFIER_NEW_MESSAGES = exports.NOTIFIER_NEW_MESSAGES = "MESSAGES ";
+var NOTIFIER_LOGOUT = exports.NOTIFIER_LOGOUT = "LOGOUT";
+var NOTIFIER_NEW_MESSAGES = exports.NOTIFIER_NEW_MESSAGES = "MESSAGES";
 var NOTIFIER_NEW_EVENTS = exports.NOTIFIER_NEW_EVENTS = "EVENTS";
 var NOTIFIER_NEW_GAMES = exports.NOTIFIER_NEW_GAMES = "GAMES";
 

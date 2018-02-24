@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Notifier from './notifier';
+import Notifier from './notifier/';
 import {AppContainer} from 'react-hot-loader';
 import {createStore} from 'redux'
 import {Provider} from 'react-redux';
