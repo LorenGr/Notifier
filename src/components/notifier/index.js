@@ -5,6 +5,7 @@ import {AppContainer} from 'react-hot-loader';
 import {createStore} from 'redux'
 import {Provider} from 'react-redux';
 import reducer from './reducers/';
+import 'antd/dist/antd.css';
 
 const store = createStore(reducer);
 const render = Component => {

@@ -13,6 +13,8 @@ The administration application can broadcast to all those who are using the Noti
 
 ### DEMO : https://notifierapp.herokuapp.com/admin
 
+_Note : The Demo starts with an empty list of games. You can broadcast new games from the administrator._
+
 ## Server API
 This is responsible for creating webSocket connections and keeping track of all active users at a given time.
 

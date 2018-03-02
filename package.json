@@ -9,6 +9,7 @@
     "antd": "^3.2.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
@@ -22,6 +23,9 @@
     "devWSBase": "ws://localhost:3001"
   },
   "babel": {
+    "plugins": [
+      "rewire"
+    ],
     "presets": [
       "es2015",
       "react",
@@ -43,6 +47,7 @@
     "babel-jest": "^22.4.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-import": "^1.6.5",
+    "babel-plugin-rewire": "^1.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -55,6 +60,7 @@
     "css-loader": "^0.28.9",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "expect": "^22.4.0",
     "jest": "^22.4.0",
     "mock-socket": "^7.1.0",
     "react-hot-loader": "^3.1.3",
