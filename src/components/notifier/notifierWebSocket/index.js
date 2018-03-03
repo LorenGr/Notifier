@@ -5,7 +5,6 @@ class NotifierWebSocket extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.openSocket = this.openSocket.bind(this);
         this.closeSocket = this.closeSocket.bind(this);
         props.isOpen ? this.openSocket() : this.closeSocket();
@@ -24,6 +23,7 @@ class NotifierWebSocket extends React.Component {
 
     closeSocket() {
         this.ws && this.ws.close();
+        console.log();
     }
 
     componentWillUnmount() {

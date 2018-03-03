@@ -13,34 +13,49 @@ global.WebSocket = WebSocket;
 
 describe('Test Notifier WebSocket connection', () => {
 
-    test("Should emit message to onMessage handler", () => {
-
+    test("Should call onSocketOpen callback", done => {
+        let _ws = null;
         const mockServer = new Server(wsBase);
-
-        const callbacks = {
-            onMessage: data => {
-                return null;
-            },
-        };
-        const spy = jest.spyOn(callbacks, 'onMessage');
-
         const props = {
             isOpen: true,
             url: wsBase,
-            onMessage: callbacks.onMessage
+            onSocketOpen: socketConn => {
+                _ws = socketConn;
+            }
         };
-        const wrapper = shallow(<NotifierWebSocket {...props} />);
+        const spy = jest.spyOn(props, 'onSocketOpen');
+        shallow(<NotifierWebSocket {...props} />);
 
         mockServer.on('connection', server => {
-            mockServer.send({
-                type: 'messages',
-                data: {
-                    type: 'messages',
-                    data: []
-                }
-            });
-
             expect(spy).toHaveBeenCalled();
+            mockServer.close();
+            done();
+        });
+    });
+
+    test("Should call onMessage callback", done => {
+        const mockServer = new Server(wsBase);
+        const props = {
+            isOpen: true,
+            url: wsBase,
+            onMessage: data => {
+                return null;
+            },
+            onSocketOpen: () => {
+            }
+        };
+        const spy = jest.spyOn(props, 'onMessage');
+        shallow(<NotifierWebSocket {...props} />);
+
+        const payload = {
+            type: 'messages',
+            data: []
+        };
+
+        mockServer.on('connection', server => {
+            mockServer.send(JSON.stringify(payload));
+            expect(spy).toHaveBeenCalledWith(payload);
+            mockServer.close();
             done();
         });
     });
