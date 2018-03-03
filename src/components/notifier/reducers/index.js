@@ -27,7 +27,6 @@ export default function reducer(state = {
         case NOTIFIER_NEW_MESSAGES :
             return Object.assign({}, state, {
                 messages: {
-                    date: new Date(),
                     content: action.messages
                 }
             });

@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Notifier from './notifier';
+import Notifier from './notifier/';
 import {AppContainer} from 'react-hot-loader';
 import {createStore} from 'redux'
 import {Provider} from 'react-redux';
 import reducer from './reducers/';
+import 'antd/dist/antd.css';
 
 const store = createStore(reducer);
 const render = Component => {
